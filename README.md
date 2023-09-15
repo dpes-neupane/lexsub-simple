@@ -15,4 +15,8 @@ Example to run the script:
 > py lexsub.py -t "mission" -s "A mission to end a war AUSTIN, Texas -- Tom Karnes was dialing for destiny but not everyone wanted to cooperate" -n 100 -o 10 -p "dot"
 
 
-For more better lexical substitution works, please read [Nikolay Arefyev et al.](https://arxiv.org/pdf/2006.00031.pdf), [Roller and Katrin](https://aclanthology.org/N16-1131.pdf), [Michalopoulos et al.](https://aclanthology.org/2022.acl-long.87.pdf) and [Zhou1 et al.](https://aclanthology.org/P19-1328.pdf).
+For more better lexical substitution works, please read [Nikolay Arefyev et al.](https://arxiv.org/pdf/2006.00031.pdf), [Roller and Katrin](https://aclanthology.org/N16-1131.pdf), [Michalopoulos et al.](https://aclanthology.org/2022.acl-long.87.pdf) and [Zhou1 et al.](https://aclanthology.org/P19-1328.pdf)
+
+The `emb30010k/` contains two `.tsv` files:
+- `metadata.tsv` which contains approx most common 10k words
+- `vectors.tsv` contains the vectors of those 10k words trained using SGNS (pretrained gensim vectors downloaded from [SGNS](http://vectors.nlpl.eu/repository/))  
