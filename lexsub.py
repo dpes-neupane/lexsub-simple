@@ -81,15 +81,27 @@ def getWordEmbeddings(wordfile, embfile):
 
 
 if __name__ == '__main__':
+    from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
+    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
+    parser.add_argument("-t", "--targetword", default="mission", help="Target word to be substituted")
+    parser.add_argument("-s", "--sentence", default="A mission to end a war AUSTIN, Texas -- Tom Karnes was dialing for destiny but not everyone wanted to cooperate", help="Target Sentence")
+    parser.add_argument("-n", "--nearwords", default=100, help="Number of candidate words near to the target word embedding")
+    parser.add_argument("-o", "--outputwords", default=10, help="no of substitute words")
+    parser.add_argument("-p", "--operator", default="dot", help="operator to use for sentece comparison")
+    args = vars(parser.parse_args())
     nw = NearestWords()
     wrdEmb = getWordEmbeddings(
-        'gensim10k/metadata.tsv', 'gensim10k/vectors.tsv')
-    word = 'mission'
-    k = 100
-    subs = 10
+        'lexsub\emb30010k/metadata.tsv', 'lexsub\emb30010k/vectors.tsv')
+    word = args["targetword"]
+    sent = args["sentence"]
+    k = args["nearwords"]
+    subs = args["outputwords"]
+    op = args["operator"]
+    sent = sent.replace(word, "")
     near_wrds = nw.fit(wrdEmb, wrdEmb[word], k)
     ls = LexSub()
-    sub_wrd = ls.fit('A mission to end a war AUSTIN, Texas -- Tom Karnes was dialing for destiny but not everyone wanted to cooperate'.split(
-        ' '), [x[0] for x in near_wrds], word, wrdEmb, subs=subs, op='dot')
-    print(f"The nearest {k} words for {word} are: {near_wrds}")
-    print(f"The top {subs} substitution words for {word} are: {sub_wrd}")
+    sub_wrd = ls.fit(sent.split(
+        ' '), [x[0] for x in near_wrds], word, wrdEmb, subs=subs, op=op)
+    print(f"The nearest {k} words for {word} are:")
+    print(*near_wrds[:20])
+    print(f"The top {subs} substitution words for {word} are:", *sub_wrd)
